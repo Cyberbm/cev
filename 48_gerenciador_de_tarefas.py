@@ -43,12 +43,18 @@ def nova_tarefa():
                 continue
             
             tarefa = {
-                'Título':titulo, 'Descrição':descricao,'Vencimento':data_valida, 'Prioridade':prioridade
+                'Título':titulo, 
+                'Descrição':descricao,
+                'Vencimento':data_valida, 
+                'Prioridade':prioridade,
+                'Concluída': False
             }
             return tarefa
 
 
 tarefas = []
+
+#============================================================
 
 print(f'{cores['Branco']}{'=-=' * 5} Gerenciador de tarefas {'=-=' * 5}')
 
@@ -74,6 +80,7 @@ Escolha entre as opções:
             print('Ainda não há tarefas cadastradas.')
         else:
             for idx, tarefa in enumerate(tarefas, start=1):
+                status = 'Concluída' if tarefa['Concluída'] else 'Pendente'
                 print(f'''{'=-=' *5}
 Tarefa {idx}:
 Título: {tarefa['Título']}
@@ -81,7 +88,22 @@ Descrição: {tarefa['Descrição']}
 Data de vencimento: {tarefa['Vencimento']}
 Prioridade: {tarefa['Prioridade']}''')
     
-    #elif opcao == '3': preciso finalizar até amanhã.
+    elif opcao == '3':
+        if not tarefas:
+            print('Ainda não há tarefas cadastradas.')
+        else:
+            for idx, tarefa in enumerate(tarefas, start=1):
+                status = 'Concluída' if tarefa['Concluída'] else 'Pendente'
+                print(f'{idx}. {tarefa["Título"]} - Status: {status}')
+            try:
+                num_tarefa = int(input('Digite o número da tarefa que deseja marcar como concluída: ').strip())
+                if 1 <= num_tarefa <= len(tarefas):
+                    tarefas[num_tarefa - 1]['Concluída'] = True
+                    print('Tarefa concluída.')
+                else:
+                    print('Número de tarefas inválido.')
+            except ValueError:
+                print('Por favor, digite um número válido.')
 
     elif opcao == '4':
         print('Finalizando...')
