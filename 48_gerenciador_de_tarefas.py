@@ -9,7 +9,6 @@ cores = {
 }
 #===========================================
 
-
 def nova_tarefa():
     
     alta, media, baixa = 0, 0, 0
@@ -65,9 +64,12 @@ Escolha entre as opções:
 [ 1 ]. Adicionar nova tarefa
 [ 2 ]. Ver todas as tarefas
 [ 3 ]. Marcar tarefa como concluída
-[ 4 ]. Sair
+[ 4 ]. Deletar tarefa
+[ 5 ]. Sair
 
 {cores['Reset']}''')
+
+#===========================================================
     
     opcao = input('Escolha uma das opções: ').strip()
 
@@ -75,6 +77,9 @@ Escolha entre as opções:
         nova = nova_tarefa()
         if nova:
             tarefas.append(nova)
+
+#============================================================
+
     elif opcao == '2':
         if not tarefas:
             print('Ainda não há tarefas cadastradas.')
@@ -88,6 +93,8 @@ Descrição: {tarefa['Descrição']}
 Data de vencimento: {tarefa['Vencimento']}
 Prioridade: {tarefa['Prioridade']}''')
     
+#=============================================================================================
+
     elif opcao == '3':
         if not tarefas:
             print('Ainda não há tarefas cadastradas.')
@@ -105,11 +112,33 @@ Prioridade: {tarefa['Prioridade']}''')
             except ValueError:
                 print('Por favor, digite um número válido.')
 
-    elif opcao == '4':
+#=============================================================================================
+
+    elif opcao == '4': 
+        
+        if not tarefas:
+            print('Ainda não há tarefas cadastradas.')
+        else:
+            for idx, tarefa in enumerate(tarefas, start=1):
+                print(f'{idx}. {tarefa["Título"]}')
+            try:
+                num_tarefa = int(input('Digite o número da tarefa que deseja deletar: '))
+                if 1 <= num_tarefa <= len(tarefas):
+                    tarefa_removida = tarefas.pop(num_tarefa - 1)
+                    print(f'Tarefa "{tarefa_removida["Título"]}" excluída.')
+                else:
+                    print('Número de tarefa inválido.')
+            except ValueError:
+                print('Por favor, digite um número válido.')
+
+#=================================================================================================
+
+    elif opcao == '5':
         print('Finalizando...')
         sleep(2)
         break
 
-    
+    else:
+        print('Por favor, escolha uma opção válida.')
 
     
